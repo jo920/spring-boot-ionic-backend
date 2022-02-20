@@ -14,8 +14,8 @@ public class CategoriaDTO implements Serializable {
 
 	private Integer id;
 	
-	@NotEmpty(message="O campo nao pode ser nulo.Favor preencher")
-    @Length(min =5,max=50,message="O tamanho do campo deve ser entre 5 e 50 caracteres")
+	@NotEmpty(message="O campo nao pode ser nulo.Favor preencher")// estou declarando que o campo nao pode ser nulo 
+    @Length(min =5,max=50,message="O tamanho do campo deve ser entre 5 e 50 caracteres") // Estou especificando o tamanho do campo
 	private String nome;
 	
 	public CategoriaDTO() {
