@@ -54,7 +54,8 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		CpfouCnpj = cpfouCnpj;
-		this.tipo = (tipo==null)? null : tipo.getCod();
+		this.tipo = (tipo==null)? null : tipo.getCod();  /* estou dizendo se o estado do pagamento for 
+                                                            nulo eu deixo como nulo, caso nao seja eu preencho*/
 	}
 
 	public Integer getId() {
