@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -31,8 +32,8 @@ public class Cliente implements Serializable {
 	private String CpfouCnpj;
 	private Integer tipo;
 
-	
-	@OneToMany(mappedBy = "cliente") // estou falando qual o nome da classe que esta fazendo o relaciomento de um para muitos para ela
+	//O cascade significa que no momento da exclusao, quero que reflita no enderecos também.
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) // estou falando qual o nome da classe que esta fazendo o relaciomento de um para muitos para ela
 	private List<Endereco> enderecos = new ArrayList<>();
 
 	@ElementCollection
