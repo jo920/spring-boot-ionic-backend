@@ -2,22 +2,53 @@ package com.jh.cursomc.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.jh.cursomc.services.validation.ClienteInsert;
+
+import javax.validation.constraints.Email;
+
+@ClienteInsert
 public class ClienteNewDTO implements Serializable { // Criei essa classe para salvar todos os dados os dados do cliente em uma unica classe.
 
 	private static final long serialVersionUID = 1L;
 
+	@NotEmpty(message =" O preenchimento do campo nome é obrigatório!")
+	@Length(min = 10,max=60, message = "O campo nome deve ter no minimo 10 caracteres e o maximo de 60 caracteres.")
 	private String nome;
+	
+	@NotEmpty(message =" O preenchimento do campo Email é obrigatório!")
+	@Email(message = "Email Invalido!")
 	private String email;
+	
+	@NotEmpty(message =" O preenchimento do campo CPF é obrigatório!")
+	
 	private String cpfOuCnpj;
+	
+	
 	private Integer tipo;
 
+	@NotEmpty(message =" O preenchimento do campo Logradouro é obrigatório!")
 	private String logradouro;
+	
+	@NotEmpty(message =" O preenchimento do campo Numero é obrigatório!")
 	private String numero;
+	
 	private String complemento;
+	
+	@NotEmpty(message =" O preenchimento do campo Bairro é obrigatório!")
 	private String bairro;
+	
+	@NotEmpty(message =" O preenchimento do campo CEP é obrigatório!")
 	private String cep;
 
+	
+	@NotEmpty(message =" O preenchimento do campo Telefone é obrigatório!")
 	private String telefone1;
+	
+	
 	private String telefone2;
 	private String telefone3;
 
