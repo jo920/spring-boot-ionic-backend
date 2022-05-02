@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.jh.cursomc.services.DBService;
+import com.jh.cursomc.services.EmailService;
+import com.jh.cursomc.services.SmtpEmailService;
 
 @Configuration // Estou dizendo que essa classe é para configuração do projeto
 @Profile("dev") // Estou especificadno que todos os Bean que esta na classe é referente ao dev que criei no aplication.
@@ -33,6 +35,12 @@ public class DevConfig {
 		dbservice.instantiateTestDatabase();
 		
 		return true;
+	}
+	
+	
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();
 	}
 	
 	
