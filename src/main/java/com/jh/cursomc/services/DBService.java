@@ -120,7 +120,7 @@ public class DBService { // Criei essa classe para testes
 		
 		
 		
-		Cliente cli1 = new Cliente(null, "Maria Silva ","maria.sl@gmail.com","452112643554",TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva ","joaohenriqueteste365@gmail.com","452112643554",TipoCliente.PESSOAFISICA);
 		
 		cli1.getTelefones().addAll(Arrays.asList("989767522","975624568"));
 		
