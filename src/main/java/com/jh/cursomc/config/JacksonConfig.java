@@ -3,6 +3,8 @@ package com.jh.cursomc.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jh.cursomc.domain.PagamentoComBoleto;
@@ -22,4 +24,11 @@ public class JacksonConfig {
 		};
 		return builder;
 	}
+	
+	@Bean
+	public JavaMailSender jMS (){
+		return new JavaMailSenderImpl();
+	}
+	
 }
+
