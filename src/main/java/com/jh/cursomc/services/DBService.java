@@ -20,6 +20,7 @@ import com.jh.cursomc.domain.PagamentoComCartao;
 import com.jh.cursomc.domain.Pedido;
 import com.jh.cursomc.domain.Produto;
 import com.jh.cursomc.domain.enums.EstadoPagamento;
+import com.jh.cursomc.domain.enums.Perfil;
 import com.jh.cursomc.domain.enums.TipoCliente;
 import com.jh.cursomc.repositories.CategoriaRepository;
 import com.jh.cursomc.repositories.CidadeRepository;
@@ -125,18 +126,22 @@ public class DBService { // Criei essa classe para testes
 		
 		
 		
-		Cliente cli1 = new Cliente(null, "Maria Silva ","joaohenriqueteste365@gmail.com","452112643554",TipoCliente.PESSOAFISICA,pv.encode("amarelo1"));
-		
+		Cliente cli1 = new Cliente(null, "Maria Silva ","joaohenriqueteste365@gmail.com","85552633520",TipoCliente.PESSOAFISICA,pv.encode("amarelo1"));		
 		cli1.getTelefones().addAll(Arrays.asList("989767522","975624568"));
 		
+		Cliente cli2 = new Cliente(null, "Ana Cassia ","raianereis7328@gmail.com","13871965618",TipoCliente.PESSOAFISICA,pv.encode("130655897"));
+		cli2.addPerfil(Perfil.ADMIN);
+		cli2.getTelefones().addAll(Arrays.asList("22323775","985646554"));
+		
 		Endereco e1 = new Endereco(null,"Rua Flores","300","Apto 303","Jardim","02447195",cli1,c1);
-		Endereco e2 = new Endereco(null,"Rua Flores","300","Apto 303","Jardim","02447195",cli1,c1);
+		Endereco e2 = new Endereco(null,"Avenida Parada Pinto","300","Apto 303","Jardim","02447195",cli1,c2);
+		Endereco e3 = new Endereco(null,"Avenida Engenheiro Caetano Alvares","450","Apto 303","Jardim","02456898",cli2,c2);
 		
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
-
-		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
 		
+		clienteRepository.saveAll(Arrays.asList(cli1,cli2));		
+		enderecoRepository.saveAll(Arrays.asList(e1,e2,e3));
 		
 		// Criando dados para pagamento e pedidos
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");

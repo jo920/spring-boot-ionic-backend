@@ -25,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
     private static final String[]PUBLIC_MATCHERS_GET = {  //Criei um vetor para mostrar o que deve estar liberado para o Spring Security		
 			"/produtos/**",
-			"/categorias/**"
+			"/categorias/**",
+			"/clientes/**"
 	};
 	
 	private static final String[]PUBLIC_MATCHERS = {  			
