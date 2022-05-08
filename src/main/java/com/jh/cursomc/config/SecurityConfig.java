@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -22,22 +23,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private Environment env;
 	
-    private static final String[]PUBLIC_MATCHERS_GET = {  //Criei um vetor para mostrar o que deve estar liberado para o Spring Security
-			
+    private static final String[]PUBLIC_MATCHERS_GET = {  //Criei um vetor para mostrar o que deve estar liberado para o Spring Security		
 			"/produtos/**",
 			"/categorias/**"
 	};
 	
-	
-	
-	
-	private static final String[]PUBLIC_MATCHERS = {  
-			
+	private static final String[]PUBLIC_MATCHERS = {  			
 			"/h2-console/**"
 	};
-	
-	
-	
+		
 	// esse metodo config significa que tudo que estiver no PUBLIC_MATCHERS esta permitido, no entanto, para os que nao
 	//tiverem incluidos precisa de autenticação.
 	@Override
@@ -50,8 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		    .antMatchers(PUBLIC_MATCHERS).permitAll()
 		    .antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll()
-		    .anyRequest().authenticated();
-		
+		    .anyRequest().authenticated();		
 	}	
 	
 	@Bean
@@ -60,5 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    source.registerCorsConfiguration("/**",new CorsConfiguration().applyPermitDefaultValues());
 	    return source;
 	}
+	
+	
+	@Bean 
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
 	
 }

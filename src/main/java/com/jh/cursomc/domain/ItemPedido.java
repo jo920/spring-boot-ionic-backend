@@ -2,10 +2,8 @@ package com.jh.cursomc.domain;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Objects;
-
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 

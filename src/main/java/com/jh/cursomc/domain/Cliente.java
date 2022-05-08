@@ -34,6 +34,9 @@ public class Cliente implements Serializable {
 	private String email;
 	private String CpfouCnpj;
 	private Integer tipo;
+	
+	@JsonIgnore
+	private String senha;
 
 	//O cascade significa que no momento da exclusao, quero que reflita no enderecos também.
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) // estou falando qual o nome da classe que esta fazendo o relaciomento de um para muitos para ela
@@ -52,14 +55,14 @@ public class Cliente implements Serializable {
 
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfouCnpj, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfouCnpj, TipoCliente tipo, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		CpfouCnpj = cpfouCnpj;
-		this.tipo = (tipo==null)? null : tipo.getCod();  /* estou dizendo se o estado do pagamento for 
-                                                            nulo eu deixo como nulo, caso nao seja eu preencho*/
+		this.tipo = (tipo==null)? null : tipo.getCod();  /* estou dizendo se o estado do pagamento for nulo eu deixo como nulo, caso nao seja eu preencho*/
+		this.senha = senha;
 	}
 
 	public Integer getId() {
@@ -124,7 +127,19 @@ public class Cliente implements Serializable {
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
+		
 	}
+	
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	
 
 	@Override
 	public int hashCode() {
@@ -142,5 +157,6 @@ public class Cliente implements Serializable {
 		Cliente other = (Cliente) obj;
 		return Objects.equals(id, other.id);
 	}
+
 
 }
