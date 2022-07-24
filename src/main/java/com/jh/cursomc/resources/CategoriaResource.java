@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,7 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaService service;
 
-	//Aqui estou buscando a categoria relacionada pelo ID informado
+	// Aqui estou buscando a categoria relacionada pelo ID informado
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria obj = service.find(id);
@@ -36,7 +37,7 @@ public class CategoriaResource {
 	}
 
 	// Nesse mapeamento estou inserindo uma categoria na classe
-	@RequestMapping(method = RequestMethod.POST) 
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
 		Categoria obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
@@ -44,8 +45,9 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).build();
 	}
 
-	// Nesse mapeamento estou atualizando um id 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)  
+	// Nesse mapeamento estou atualizando um id
+    @PreAuthorize("hasAnyRole('ADMIN')") // Apenas perfis administradores podem fazer o update
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
 		Categoria obj = service.fromDTO(objDto);
 		obj.setId(id);
@@ -53,7 +55,8 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	//Estou deletando uma categoria
+	// Estou deletando uma categoria
+    @PreAuthorize("hasAnyRole('ADMIN')")// Apenas perfis administradores podem deletar
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
