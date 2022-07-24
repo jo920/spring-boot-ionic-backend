@@ -19,38 +19,32 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.jh.cursomc.security.JWTAuthenticationFilter;
+import com.jh.cursomc.security.JWTAuthorizationFilter;
 import com.jh.cursomc.security.JWTUtil;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
-	
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
 	@Autowired
-	private Environment env;
+    private Environment env;
 	
 	@Autowired
 	private JWTUtil jwtUtil;
 	
-	// esse metodo config significa que tudo que estiver no PUBLIC_MATCHERS esta permitido, no entanto, para os que nao
- 	//tiverem incluidos precisa de autenticação.
 	private static final String[] PUBLIC_MATCHERS = {
 			"/h2-console/**"
 	};
-	
-	
-	//Criei um vetor para mostrar o que deve estar liberado para o Spring Security
+
 	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/produtos/**",
 			"/categorias/**",
 			"/clientes/**"
 	};
-    
-   	
-		
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
@@ -64,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
 			.anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
@@ -83,5 +78,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
 }
