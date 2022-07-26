@@ -4,9 +4,13 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jh.cursomc.domain.Cliente;
 import com.jh.cursomc.domain.ItemPedido;
 import com.jh.cursomc.domain.PagamentoComBoleto;
 import com.jh.cursomc.domain.Pedido;
@@ -14,6 +18,8 @@ import com.jh.cursomc.domain.enums.EstadoPagamento;
 import com.jh.cursomc.repositories.ItemPedidoRepository;
 import com.jh.cursomc.repositories.PagamentoRepository;
 import com.jh.cursomc.repositories.PedidoRepository;
+import com.jh.cursomc.security.UserSS;
+import com.jh.cursomc.services.exceptions.AuthorizationException;
 import com.jh.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -79,6 +85,17 @@ public class PedidoService {
 	}
 	
 	
+	//Implementei essa restrição onde o cliente busca os seus pedidos
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if(user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente =  clienteservice.find(user.getId());
+		return repo.findByCliente(cliente, pageRequest);		
+	}
 	
 
 }
