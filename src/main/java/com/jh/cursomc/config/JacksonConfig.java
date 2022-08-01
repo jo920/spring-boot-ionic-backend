@@ -25,7 +25,7 @@ public class JacksonConfig {
 		return builder;
 	}
 	
-	@Bean
+	
 	public JavaMailSender jMS (){
 		return new JavaMailSenderImpl();
 	}
