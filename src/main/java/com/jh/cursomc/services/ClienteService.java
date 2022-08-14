@@ -1,5 +1,6 @@
 package com.jh.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jh.cursomc.domain.Cidade;
 import com.jh.cursomc.domain.Cliente;
@@ -29,6 +31,10 @@ import com.jh.cursomc.services.exceptions.ObjectNotFoundException;
 @Service
 public class ClienteService {
 
+	
+	@Autowired
+	private S3Service s3service;
+	
 	@Autowired
 	private BCryptPasswordEncoder pv;// Utilizei para encriptografa a senha do cliente 
 	
@@ -106,5 +112,13 @@ public class ClienteService {
 	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
+		
+		
 	}
+	
+	// metodo URi para subir a imagem de perfil do cliente para o S3
+	public URI uploadProfilePicture(MultipartFile multipartfile) {
+		return s3service.uploadFile(multipartfile);
+	}	
+	
 }
