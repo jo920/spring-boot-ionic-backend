@@ -32,17 +32,19 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	
-	@Column(unique = true )
+
+	@Column(unique = true)
 	private String email;
 	private String CpfouCnpj;
 	private Integer tipo;
-	
+
 	@JsonIgnore
 	private String senha;
 
-	//O cascade significa que no momento da exclusao, quero que reflita no enderecos também.
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) // estou falando qual o nome da classe que esta fazendo o relaciomento de um para muitos para ela
+	// O cascade significa que no momento da exclusao, quero que reflita no
+	// enderecos também.
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) // estou falando qual o nome da classe que esta fazendo
+																// o relaciomento de um para muitos para ela
 	private List<Endereco> enderecos = new ArrayList<>();
 
 	@ElementCollection
@@ -50,20 +52,19 @@ public class Cliente implements Serializable {
 										// telefones
 	private Set<String> telefones = new HashSet<>();
 
-	
-	@ElementCollection(fetch =FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
-	
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 
-	
 	public Cliente() {
 		addPerfil(Perfil.CLIENTE);
 	}
+
+	private String imageUrl;
 
 	public Cliente(Integer id, String nome, String email, String cpfouCnpj, TipoCliente tipo, String senha) {
 		super();
@@ -71,7 +72,10 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		CpfouCnpj = cpfouCnpj;
-		this.tipo = (tipo==null)? null : tipo.getCod();  /* estou dizendo se o estado do pagamento for nulo eu deixo como nulo, caso nao seja eu preencho*/
+		this.tipo = (tipo == null) ? null : tipo.getCod(); /*
+															 * estou dizendo se o estado do pagamento for nulo eu deixo
+															 * como nulo, caso nao seja eu preencho
+															 */
 		this.senha = senha;
 		addPerfil(Perfil.CLIENTE);
 	}
@@ -138,10 +142,9 @@ public class Cliente implements Serializable {
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
-		
+
 	}
-	
-	
+
 	public String getSenha() {
 		return senha;
 	}
@@ -150,15 +153,23 @@ public class Cliente implements Serializable {
 		this.senha = senha;
 	}
 
-	 public Set<Perfil> getPerfis(){
-		 return perfis.stream().map(x->Perfil.toEnum(x)).collect(Collectors.toSet());
-	 }
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
 
-	 public void addPerfil(Perfil perfil) {
-		 
-		 perfis.add(perfil.getCod());
-	 }
-	 
+	public void addPerfil(Perfil perfil) {
+
+		perfis.add(perfil.getCod());
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -175,6 +186,5 @@ public class Cliente implements Serializable {
 		Cliente other = (Cliente) obj;
 		return Objects.equals(id, other.id);
 	}
-
 
 }

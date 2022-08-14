@@ -117,8 +117,18 @@ public class ClienteService {
 	}
 	
 	// metodo URi para subir a imagem de perfil do cliente para o S3
-	public URI uploadProfilePicture(MultipartFile multipartfile) {
-		return s3service.uploadFile(multipartfile);
-	}	
-	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		URI uri = s3service.uploadFile(multipartFile);
+		
+		Cliente cli = find(user.getId());
+		cli.setImageUrl(uri.toString());
+		repo.save(cli);
+		
+		return uri;
+	}
 }
